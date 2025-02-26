@@ -14,7 +14,7 @@ export default function Home() {
   const [moves, setMoves] = useState<ChessMove[]>([]);
 
   const { data: dailyPuzzle, isLoading, error } = useQuery<Puzzle>({
-    queryKey: ['/api/chess/daily'],  // Fixed API endpoint path
+    queryKey: ['/api/chess/daily'],  // Updated to use full API path
     queryFn: fetchDailyPuzzle,
     retry: 1
   });

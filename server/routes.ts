@@ -19,6 +19,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       proxyRes.headers['access-control-allow-methods'] = 'GET,POST,PUT,DELETE,OPTIONS';
       proxyRes.headers['access-control-allow-headers'] = 'Content-Type';
     },
+    pathRewrite: {
+      '^/api/chess': '/api/chess' // Keep the /api/chess prefix when forwarding
+    },
+    onError: (err, req, res) => {
+      console.error('Proxy Error:', err);
+      res.status(500).json({ error: 'Proxy Error', message: err.message });
+    },
+    logLevel: 'debug'
   }));
 
   const httpServer = createServer(app);

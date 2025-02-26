@@ -13,9 +13,9 @@ interface PuzzleBrowserProps {
 
 export function PuzzleBrowser({ onSelectPuzzle }: PuzzleBrowserProps) {
   const [difficulty, setDifficulty] = useState<string>('all');
-  
+
   const { data: puzzles, isLoading } = useQuery({
-    queryKey: ['/api/chess/puzzles', difficulty],
+    queryKey: ['/api/chess/puzzles', difficulty],  // Updated to use full API path
     queryFn: () => fetchPuzzles(difficulty === 'all' ? undefined : parseInt(difficulty))
   });
 
