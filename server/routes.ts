@@ -9,6 +9,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     target: 'https://cmixbe.replit.app',
     changeOrigin: true,
     secure: false,
+    onProxyReq: function (proxyReq) {
+      // Add API key header to the proxied request
+      proxyReq.setHeader('X-API-Key', '08c1ee062a38814564eb8ca468d2f411');
+    },
     onProxyRes: function (proxyRes) {
       // Add CORS headers to the proxied response
       proxyRes.headers['access-control-allow-origin'] = '*';

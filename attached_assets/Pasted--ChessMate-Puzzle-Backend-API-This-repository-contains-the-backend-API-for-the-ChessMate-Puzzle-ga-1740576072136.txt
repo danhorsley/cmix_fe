@@ -1,0 +1,395 @@
+# ChessMate Puzzle Backend API
+
+This repository contains the backend API for the ChessMate Puzzle game. The API serves chess puzzles with varying difficulty levels, and supports the concept of "missing squares" for a unique twist on traditional chess puzzles.
+
+## Technologies Used
+
+- **Python 3.8+**
+- **Flask** - Web framework
+- **Flask-CORS** - Cross-Origin Resource Sharing support
+
+## Getting Started
+
+### Local Development
+
+1. Clone this repository
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Run the development server:
+   ```
+   python run.py
+   ```
+   
+The server will start on `localhost:5000` by default.
+
+### Replit Deployment
+
+This project is configured to run on Replit:
+
+1. Fork the Repl
+2. The server should start automatically
+3. Your API will be available at `https://your-repl-name.replit.app`
+
+## API Endpoints
+
+### Get All Puzzles
+
+```
+GET /api/chess/puzzles
+```
+
+**Query Parameters:**
+- `difficulty` (optional) - Filter puzzles by difficulty level (1-5)
+
+**Response:**
+```json
+{
+  "puzzles": [
+    {
+      "id": "1",
+      "board": {
+        "pieces": [
+          {
+            "type": "q",
+            "color": "w",
+            "position": {
+              "row": 3,
+              "col": 3
+            }
+          },
+          /* Other pieces */
+        ],
+        "missingSquares": [
+          /* List of inaccessible squares */
+        ],
+        "size": 8
+      },
+      "movesToCheckmate": 1,
+      "difficulty": 1
+    },
+    /* More puzzles */
+  ]
+}
+```
+
+### Puzzle Editor Endpoints
+
+### Get Empty Board for Editor
+
+```
+GET /api/chess/editor
+```
+
+**Response:**
+```json
+{
+  "board": {
+    "pieces": [],
+    "missingSquares": [],
+    "size": 8
+  },
+  "editMode": true
+}
+```
+
+### Analyze Position for Checkmate
+
+```
+POST /api/chess/analyze
+```
+
+**Request Body:**
+```json
+{
+  "board": {
+    "pieces": [
+      {
+        "type": "q",
+        "color": "w",
+        "position": {
+          "row": 3,
+          "col": 3
+        }
+      },
+      /* Other pieces */
+    ],
+    "missingSquares": [
+      {"row": 3, "col": 4},
+      /* Other missing squares */
+    ],
+    "size": 8
+  },
+  "maxDepth": 3,
+  "attackingColor": "w"
+}
+```
+
+**Response:**
+```json
+{
+  "board": {
+    /* Board details */
+  },
+  "analysis": {
+    "hasMate": true,
+    "movesToMate": 2,
+    "mateSequence": [
+      {
+        "from": {"row": 3, "col": 3},
+        "to": {"row": 1, "col": 5},
+        "notation": "Qxf7+"
+      },
+      /* More moves in the sequence */
+    ]
+  }
+}
+```
+
+### Save Analyzed Puzzle
+
+```
+POST /api/chess/save-puzzle
+```
+
+**Request Body:**
+```json
+{
+  "board": {
+    /* Board details */
+  },
+  "analysis": {
+    "hasMate": true,
+    "movesToMate": 2,
+    "mateSequence": [
+      /* Move sequence */
+    ]
+  },
+  "difficulty": 3
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Puzzle created successfully",
+  "id": "4",
+  "puzzle": {
+    /* Puzzle details */
+  }
+}
+```
+
+### Get Puzzle by ID
+
+```
+GET /api/chess/puzzles/<puzzle_id>
+```
+
+**Response:**
+```json
+{
+  "id": "1",
+  "board": {
+    /* Board details */
+  },
+  "movesToCheckmate": 1,
+  "difficulty": 1
+}
+```
+
+### Get Daily Puzzle
+
+```
+GET /api/chess/daily
+```
+
+**Response:**
+```json
+{
+  "daily": true,
+  "date": "2025-02-26",
+  "puzzle": {
+    /* Puzzle details */
+  }
+}
+```
+
+### Create a New Puzzle
+
+```
+POST /api/chess/puzzles
+```
+
+**Request Body:**
+```json
+{
+  "movesToCheckmate": 2,
+  "difficulty": 3,
+  "missingSquares": [
+    {"row": 3, "col": 3},
+    {"row": 3, "col": 4}
+  ],
+  "pieces": [
+    {
+      "type": "k",
+      "color": "w",
+      "position": {
+        "row": 7,
+        "col": 4
+      }
+    },
+    /* Other pieces */
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Puzzle created successfully",
+  "id": "3",
+  "puzzle": {
+    /* Puzzle details */
+  }
+}
+```
+
+### Get Puzzle by ID
+
+```
+GET /api/chess/puzzles/<puzzle_id>
+```
+
+**Response:**
+```json
+{
+  "id": "1",
+  "board": {
+    /* Board details */
+  },
+  "movesToCheckmate": 1,
+  "difficulty": 1
+}
+```
+
+### Get Daily Puzzle
+
+```
+GET /api/chess/daily
+```
+
+**Response:**
+```json
+{
+  "daily": true,
+  "date": "2025-02-26",
+  "puzzle": {
+    /* Puzzle details */
+  }
+}
+```
+
+### Create a New Puzzle
+
+```
+POST /api/chess/puzzles
+```
+
+**Request Body:**
+```json
+{
+  "movesToCheckmate": 2,
+  "difficulty": 3,
+  "missingSquares": [
+    {"row": 3, "col": 3},
+    {"row": 3, "col": 4}
+  ],
+  "pieces": [
+    {
+      "type": "k",
+      "color": "w",
+      "position": {
+        "row": 7,
+        "col": 4
+      }
+    },
+    /* Other pieces */
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Puzzle created successfully",
+  "id": "3",
+  "puzzle": {
+    /* Puzzle details */
+  }
+}
+```
+
+## Data Models
+
+### Chess Piece
+
+- `type`: String - Type of piece ('p'=pawn, 'r'=rook, 'n'=knight, 'b'=bishop, 'q'=queen, 'k'=king)
+- `color`: String - Color of piece ('w'=white, 'b'=black)
+- `position`: Object - Position on board as {row, col}, where (0,0) is top-left
+
+### Chess Board
+
+- `pieces`: Array of Chess Pieces
+- `missingSquares`: Array of {row, col} positions representing inaccessible squares
+- `size`: Integer - Board size (default 8)
+
+### Chess Puzzle
+
+- `id`: String - Unique puzzle identifier
+- `board`: Chess Board
+- `movesToCheckmate`: Integer - Number of moves to checkmate
+- `difficulty`: Integer - Difficulty rating (1-5)
+
+## Project Structure
+
+```
+/
+├── flaskb/                # Main application package
+│   ├── __init__.py        # Flask application factory
+│   ├── chess_api.py       # API endpoints
+│   ├── chess_model.py     # Data models
+│   └── chess_logic.py     # Chess rules and checkmate detection
+├── run.py                 # Application entry point
+├── requirements.txt       # Python dependencies
+├── LICENSE                # MIT License
+└── README.md              # Project documentation
+```
+
+## Features
+
+- Custom chess model with support for "missing squares" (inaccessible areas)
+- Endpoints for creating, retrieving, and analyzing chess puzzles
+- Daily puzzle selection
+- Puzzle difficulty rating system
+- Board editor for creating and testing checkmate puzzles
+- Automated checkmate sequence detection algorithm
+
+## Future Enhancements
+
+- Improve the checkmate detection algorithm for deeper search
+- Add puzzle solution verification endpoints for frontend integration
+- Implement user authentication and progress tracking
+- Add persistent database storage for puzzles
+- Create more sophisticated puzzle generation algorithms
+- Implement a puzzle rating system based on user feedback
+- Add support for puzzle categories (e.g., back-rank mates, discovered checks)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
