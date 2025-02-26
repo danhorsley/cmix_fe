@@ -1,27 +1,26 @@
 import type { Board, Puzzle, Position } from "./types";
 import { apiRequest } from "./queryClient";
 
-const API_BASE = "/api/chess";
-
+// Update to use the working test endpoint
 export async function fetchPuzzles(difficulty?: number): Promise<Puzzle[]> {
   const params = new URLSearchParams();
   if (difficulty) {
     params.append("difficulty", difficulty.toString());
   }
 
-  const res = await apiRequest("GET", `${API_BASE}/puzzles?${params}`);
+  const res = await fetch(`/api/gettest/puzzles${params.toString() ? '?' + params.toString() : ''}`);
   const data = await res.json();
   return data.puzzles;
 }
 
 export async function fetchDailyPuzzle(): Promise<Puzzle> {
-  const res = await apiRequest("GET", `${API_BASE}/daily`);
+  const res = await fetch('/api/gettest/daily');
   const data = await res.json();
   return data.puzzle;
 }
 
 export async function analyzePuzzle(board: Board, maxDepth: number = 3) {
-  const res = await apiRequest("POST", `${API_BASE}/analyze`, {
+  const res = await apiRequest("POST", `/api/chess/analyze`, {
     board,
     maxDepth,
     attackingColor: "w",
@@ -35,7 +34,7 @@ export async function savePuzzle(
   analysis: any,
   difficulty: number,
 ) {
-  const res = await apiRequest("POST", `${API_BASE}/save-puzzle`, {
+  const res = await apiRequest("POST", `/api/chess/save-puzzle`, {
     board,
     analysis,
     difficulty,
