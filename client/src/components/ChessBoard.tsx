@@ -39,13 +39,13 @@ export function ChessBoard({ board, onMove, orientation = 'white', disabled = fa
   }
 
   return (
-    <div className="w-full max-w-[600px] aspect-square">
+    <div className="w-full max-w-[400px] mx-auto aspect-square">
       <Chessboard 
         position={piecePositions}
         onPieceDrop={handleMove}
         customSquareStyles={customSquareStyles}
         boardOrientation={orientation}
-        boardWidth={600}
+        boardWidth={400}
         arePiecesDraggable={!disabled}
       />
     </div>
