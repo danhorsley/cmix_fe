@@ -32,7 +32,9 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
+    const path = queryKey[0] as string;
+    const url = path.startsWith('/api') ? path : `/api/chess${path}`;
+    const res = await fetch(url, {
       headers: {
         "X-API-Key": "08c1ee062a38814564eb8ca468d2f411", // Add API key to all requests
       },
