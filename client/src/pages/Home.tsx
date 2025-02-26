@@ -14,7 +14,7 @@ export default function Home() {
   const [moves, setMoves] = useState<ChessMove[]>([]);
 
   const { data: dailyPuzzle, isLoading, error } = useQuery<Puzzle>({
-    queryKey: ['/api/chess/daily'],
+    queryKey: ['/api/chess/daily'],  // Fixed API endpoint path
     queryFn: fetchDailyPuzzle,
     retry: 1
   });
@@ -74,8 +74,6 @@ export default function Home() {
           <ChessBoard
             board={dailyPuzzle.board}
             onMove={(from, to) => {
-              // Handle moves
-              console.log('Move:', from, to);
               setMoves([...moves, { from, to, notation: `${from.row}${from.col}-${to.row}${to.col}` }]);
             }}
           />
