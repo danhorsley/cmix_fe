@@ -1,31 +1,36 @@
-import React from 'react';
-import { Chessboard } from 'react-chessboard';
-import { Board, Position } from '@/lib/types';
-import { squareToPosition, positionToSquare } from '@/lib/chess';
+import React from "react";
+import { Chessboard } from "react-chessboard";
+import { Board, Position } from "@/lib/types";
+import { squareToPosition, positionToSquare } from "@/lib/chess";
 
 interface ChessBoardProps {
   board: Board;
   onMove?: (from: Position, to: Position) => void;
-  orientation?: 'white' | 'black';
+  orientation?: "white" | "black";
   disabled?: boolean;
 }
 
-export function ChessBoard({ board, onMove, orientation = 'white', disabled = false }: ChessBoardProps) {
+export function ChessBoard({
+  board,
+  onMove,
+  orientation = "white",
+  disabled = false,
+}: ChessBoardProps) {
   const customSquareStyles: Record<string, React.CSSProperties> = {};
 
   // Style missing squares
-  board.missingSquares.forEach(pos => {
+  board.missingSquares.forEach((pos) => {
     const square = positionToSquare(pos);
     customSquareStyles[square] = {
-      backgroundColor: '#ddd',
+      backgroundColor: "#ddd",
       opacity: 0.8,
-      pointerEvents: 'none'
+      pointerEvents: "none",
     };
   });
 
   // Convert board position to FEN
   const piecePositions: Record<string, string> = {};
-  board.pieces.forEach(piece => {
+  board.pieces.forEach((piece) => {
     const square = positionToSquare(piece.position);
     piecePositions[square] = `${piece.color}${piece.type.toUpperCase()}`;
   });
@@ -39,13 +44,13 @@ export function ChessBoard({ board, onMove, orientation = 'white', disabled = fa
   }
 
   return (
-    <div className="w-full max-w-[400px] mx-auto aspect-square">
-      <Chessboard 
+    <div className="w-full max-w-[350px] mx-auto aspect-square">
+      <Chessboard
         position={piecePositions}
         onPieceDrop={handleMove}
         customSquareStyles={customSquareStyles}
         boardOrientation={orientation}
-        boardWidth={400}
+        boardWidth={350}
         arePiecesDraggable={!disabled}
       />
     </div>
