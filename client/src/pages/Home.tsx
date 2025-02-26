@@ -1,22 +1,26 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchDailyPuzzle } from '@/lib/chess';
-import { ChessBoard } from '@/components/ChessBoard';
-import { PuzzleControls } from '@/components/PuzzleControls';
-import { MoveHistory } from '@/components/MoveHistory';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Link } from 'wouter';
-import { CalendarDays, BookOpen, Edit3 } from 'lucide-react';
-import type { ChessMove, Puzzle } from '@/lib/types';
-import { useState } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import { fetchDailyPuzzle } from "@/lib/chess";
+import { ChessBoard } from "@/components/ChessBoard";
+import { PuzzleControls } from "@/components/PuzzleControls";
+import { MoveHistory } from "@/components/MoveHistory";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Link } from "wouter";
+import { CalendarDays, BookOpen, Edit3 } from "lucide-react";
+import type { ChessMove, Puzzle } from "@/lib/types";
+import { useState } from "react";
 
 export default function Home() {
   const [moves, setMoves] = useState<ChessMove[]>([]);
 
-  const { data: dailyPuzzle, isLoading, error } = useQuery<Puzzle>({
-    queryKey: ['/api/chess/daily'],  // Updated to use full API path
+  const {
+    data: dailyPuzzle,
+    isLoading,
+    error,
+  } = useQuery<Puzzle>({
+    queryKey: ["/api/chess/daily"], // Updated to use full API path
     queryFn: fetchDailyPuzzle,
-    retry: 1
+    retry: 1,
   });
 
   if (isLoading) {
@@ -74,7 +78,14 @@ export default function Home() {
           <ChessBoard
             board={dailyPuzzle.board}
             onMove={(from, to) => {
-              setMoves([...moves, { from, to, notation: `${from.row}${from.col}-${to.row}${to.col}` }]);
+              setMoves([
+                ...moves,
+                {
+                  from,
+                  to,
+                  notation: `${from.row}${from.col}-${to.row}${to.col}`,
+                },
+              ]);
             }}
           />
         </div>
@@ -88,7 +99,7 @@ export default function Home() {
             }}
             onHint={() => {
               // Show hint
-              console.log('Show hint');
+              console.log("Show hint");
             }}
           />
 

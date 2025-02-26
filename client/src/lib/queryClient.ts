@@ -14,7 +14,10 @@ export async function apiRequest(
 ): Promise<Response> {
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers: {
+      ...(data ? { "Content-Type": "application/json" } : {}),
+      "X-API-Key": "08c1ee062a38814564eb8ca468d2f411", // Add API key to all requests
+    },
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
@@ -30,6 +33,9 @@ export const getQueryFn: <T>(options: {
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
     const res = await fetch(queryKey[0] as string, {
+      headers: {
+        "X-API-Key": "08c1ee062a38814564eb8ca468d2f411", // Add API key to all requests
+      },
       credentials: "include",
     });
 
