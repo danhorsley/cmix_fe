@@ -18,7 +18,7 @@ export default function Home() {
     isLoading,
     error,
   } = useQuery<Puzzle>({
-    queryKey: ["/api/chess/daily"], // Updated to use full API path
+    queryKey: ["/daily"],
     queryFn: fetchDailyPuzzle,
     retry: 1,
   });
