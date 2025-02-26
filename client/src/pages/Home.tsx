@@ -18,7 +18,7 @@ export default function Home() {
     isLoading,
     error,
   } = useQuery<Puzzle>({
-    queryKey: ["/daily"],
+    queryKey: ["daily-puzzle"],
     queryFn: fetchDailyPuzzle,
     retry: 1,
   });
